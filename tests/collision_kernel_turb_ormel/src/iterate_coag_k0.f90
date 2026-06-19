@@ -87,6 +87,7 @@ subroutine iterate_coag_k0(path_data,path_log,chnbins,nbins,kpol,sizegrid,massgr
    call cpu_time(finish)
    print '("Array generated in ",f10.3,"s")',finish-start
 
+
    !log simu add tabflux generated time
    if (isave) then
       open(unit=1,file=trim(path_log),action='write',position='append')

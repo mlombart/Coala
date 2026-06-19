@@ -9,7 +9,7 @@
 !-------------------------------------------
 ! MODULE: Setup parameters
 ! kernel           -> collision kernel from Brownian motion (analytic or approximated)
-! K0               -> normalisation coefficient for simple kernels
+! K0               -> normalisation coefficient for physical kernels
 ! nbins            -> number of grain size bins
 ! kpol             -> order of polynomials
 ! Q                -> number of Gauss points for Gauss-quadrature method
@@ -50,8 +50,7 @@ module setup
    !choose optimised version for flux caculations and then solver
    logical :: optimised_solver = .true.
 
-
-   !Save gij and massgrid
+   !save data
    logical :: isave = .true.
 
 

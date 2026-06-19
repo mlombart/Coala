@@ -10,7 +10,7 @@
 ! MODULE: Setup parameters
 ! Coala parameters
 ! kernel           -> only k_cross_section
-! K0               -> normalisation coefficient for simple kernels
+! K0               -> normalisation coefficient for physical kernel
 ! nbins            -> number of grain size bins
 ! kpol             -> order of polynomials
 ! Q                -> number of Gauss points for Gauss-quadrature method
@@ -55,7 +55,7 @@ module setup
    logical :: optimised_solver = .true.
 
    !Save data
-   logical :: isave = .true.
+   logical :: isave = .false.
 
 
    !limit grainsizes in cm

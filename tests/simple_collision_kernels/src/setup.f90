@@ -50,7 +50,7 @@ module setup
    logical :: optimised_solver = .true.
 
 
-   !Save gij and massgrid
+   !save data
    logical :: isave = .true.
 
 

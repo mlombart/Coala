@@ -156,7 +156,7 @@ program coala
    
    call cpu_time(start_tot)
    call cpu_time(start)
-   call compute_sizegrid_massgrid(nbins,smax,smin,rhograin,sizegrid,sizemeanlog,massgrid,massbins,massmeanlog)
+   call compute_sizegrid_massgrid(nbins,smax,smin,pi,rhograin,sizegrid,sizemeanlog,massgrid,massbins,massmeanlog)
    call cpu_time(finish)
 
    print '("Init massgrid and massbins in ",f10.3,"s.")',finish-start
@@ -198,9 +198,6 @@ program coala
    call cpu_time(finish)
    print '(" dv array generated in ",f10.3,"s.")',finish-start
 
-   ! dthydro = dthydro*yr
-   ! print*,"dthydro=",dthydro
-   ! stop
 
    !Run coala with kpol <= 10
    select case (kpol)
