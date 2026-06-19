@@ -1,0 +1,134 @@
+!***********************************************************************************
+! Coala code
+! Copyright(C) Maxime Lombart <maxime.lombart@cea.fr>
+! and other code contributors
+! Licensed under CeCILL 2.1 License, see LICENCE for more information
+!***********************************************************************************
+
+
+!-------------------------------------------
+! MODULE: grain-grain differential velocity
+!         from Ormel's model and brownian motion
+!         see Lebreuilly et al., 2023
+!-------------------------------------------
+
+module dust_dv
+   use precision
+   use phy_cst
+   implicit none
+
+contains
+
+
+!> @brief Compute 2D array grain-grain differential velocity from Ormel's model for turbulence
+!!
+!!
+!! @param[in]    ndust         number of dust bins
+!! @param[in]    rho_gas       gas density
+!! @param[in]    temp          gas temperature
+!! @param[in]    rhograin      intrinsic dust density
+!! @param[in]    sizemeanlog   geometric mean value of sizegrid for each size bins
+!! @param[in]    t_dyn         dynamical time for dust localised spatially
+!! @param[in]    alpha_turb    coeff for the level of turbulence
+!! @param[out]   dv            2D array of the differential velocity between grains in bins
+subroutine compute_dv_ormel(ndust,rho_gas,temp,rhograin,sizemeanlog,t_dyn,alpha_turb,dv)
+   implicit none 
+   integer,  intent(in)  :: ndust
+   real(wp), intent(in)  :: sizemeanlog(ndust),t_dyn,alpha_turb,rho_gas,temp,rhograin
+   real(wp), intent(out) :: dv(ndust,ndust)
+
+   real(wp) :: nh,cs,Re,t_eta
+   real(wp) :: ts_i,ts_j,ts_1,St_1,St_2,x_St,beta_St
+   real(wp) :: res
+   integer  :: i,j
+
+   nh = rho_gas/(mu_gas*mh)
+   cs = sqrt(gamma_gas*kB*temp/(mu_gas*mh))        !sound speed 
+   
+   Re = 62e6_wp*sqrt(nh/1e5_wp)*sqrt(temp/10._wp)  !Reynolds number
+   t_eta = t_dyn/sqrt(Re)
+
+   res = 0._wp
+   dv  = 0._wp
+   do i=1,ndust
+      do j=1,ndust
+
+         !stopping times
+         ts_i = sqrt(pi*gamma_gas/8._wp) * rhograin*sizemeanlog(i)/(rho_gas*cs)
+         ts_j = sqrt(pi*gamma_gas/8._wp) * rhograin*sizemeanlog(j)/(rho_gas*cs)
+         ts_1 = ts_i
+
+         !stokes numbers
+         St_1    = ts_i/t_dyn
+         St_2    = ts_j/t_dyn
+         
+
+         !to symmetrize dv
+         if (j > i) then
+            ts_1    = ts_j
+            St_1    = ts_j/t_dyn
+            St_2    = ts_i/t_dyn
+         endif
+
+         x_St    = St_2/St_1
+         
+         beta_St = 3.2_wp - (1._wp + x_St) + 2._wp/(1._wp + x_St) * (1._wp/2.6_wp + x_St**3/(1.6_wp + x_St))
+         
+
+         if (ts_1 < t_eta) then
+
+            if (abs(St_1 - St_2) < epsilon(St_1)) then
+               res = 0._wp
+            else
+               res = alpha_turb * cs**2 * (St_1 - St_2)/(St_1 + St_2) * (St_1**2/(St_1 + 1._wp/sqrt(Re)) + St_2**2/(St_2 + 1._wp/sqrt(Re)))
+            endif
+
+            ! res = alpha_turb * cs**2 * (St_1 - St_2)/(St_1 + St_2) * (St_1**2/(St_1 + 1._wp/sqrt(Re)) + St_2**2/(St_2 + 1._wp/sqrt(Re)))
+
+         else if ( (t_eta <= ts_1) .and. (ts_1 < t_dyn) ) then
+               
+            res = alpha_turb * cs**2 * beta_St * St_1
+
+         else
+            res = alpha_turb * cs**2 * (1._wp/(St_1 + 1._wp) + 1._wp/(St_2 + 1._wp))
+
+         endif
+
+         dv(i,j) = sqrt(res)
+
+      enddo
+   enddo
+
+end subroutine compute_dv_ormel
+
+
+
+!> @brief Compute 2D array grain-grain differential velocity 
+!!        for dimensionless Brownian collision kernel
+!!
+!! function depending on mass and function evaluated at geometric mean of massgrid
+!!
+!! @param[in]    ndust         number of dust bins
+!! @param[in]    temp          gas temperature
+!! @param[in]    massmeanlog   geometric mean value of massgrid for each mass bins
+!! @param[out]   dv            2D array of the differential velocity between grains in bins
+subroutine compute_dv_brownian(ndust,temp,massmeanlog,dv)
+   
+   implicit none 
+   integer,  intent(in)  :: ndust
+   real(wp), intent(in)  :: massmeanlog(ndust),temp
+   real(wp), intent(out) :: dv(ndust,ndust)
+
+   integer :: i,j
+
+   do i=1,ndust
+      do j=1,ndust
+         dv(i,j) = sqrt((8._wp*kB*temp)/pi * (massmeanlog(i) + massmeanlog(j))/(massmeanlog(i) * massmeanlog(j)) )
+      enddo
+   enddo
+
+end subroutine compute_dv_brownian
+
+
+
+end module dust_dv
