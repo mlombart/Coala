@@ -87,31 +87,31 @@ set (CMAKE_Fortran_COMPILER /path/to/gfortran)
 The sources of the code are located in ``` src/``` 
 
 
-```\precision.f90```
+```precision.f90```
 : define the precision (double precision or other) for the code
 
-```\GQ_legendre_nodes_weights.f90```
+```GQ_legendre_nodes_weights.f90```
 : nodes and weights for the Gauss-Legendre quadrature method
 
-```\progress_bar.f90```
+```progress_bar.f90```
 : provide a progress bar for the calculations
 
-```\tension_module.f90```
+```tension_module.f90```
 : file for interpolation with splines under tension
 
-```\init_massgrid.f90```
+```init_massgrid.f90```
 : generate mass grid in log scale from maximum and minimum values of dust masses or dust size
 
-```\polynomials_legendre.f90```
+```polynomials_legendre.f90```
 : functions for Legendre polynomials approximation
 
-```\limiter.f90```
+```limiter.f90```
 : to calculate the gamma coefficient for scaling limiter (positivity preserved)
 
-```\reconstruction_g.f90```
+```reconstruction_g.f90```
 : functions to reconstruct the polynomials approximating the solution
 
-```\collision_kernels.f90```
+```collision_kernels.f90```
 : file containing the kernel functions (any kernels can by added through a function)
 
 ```/coag_term/coagflux_functions_GQ.f90```
@@ -120,22 +120,22 @@ The sources of the code are located in ``` src/```
 ```/coag_term/coagintflux_functions_GQ.f90```
 : term integral of the coagulation flux evaluated with GQ method
 
-```\functions_tabflux_tabintflux.f90```
+```functions_tabflux_tabintflux.f90```
 : functions to pre-calculate the arrays needed for ```flux``` and ```intflux``` for DG scheme
 
-```\functions_flux_intflux.f90```
+```functions_flux_intflux.f90```
 : functions to compute ```flux``` and ```intflux``` for DG scheme
 
-```\solver_DG.f90```
+```solver_DG.f90```
 : functions for the time solver for DG scheme
 
-```\compute_solver_coag.f90```
+```compute_solver_coag.f90```
 : functions to compute coagulation solver for 1 hydro time-step
 
-```\initial_condition_L2proj_GQ.f90```
+```initial_condition_L2proj_GQ.f90```
 : file to interpolate dust mass density with splines under tension and to generate the polynomials coefficients by L2 projection 
 
-```\interface_coag.f90```
+```interface_coag.f90```
 : functions to interface COALA with other codes
 
 
@@ -487,22 +487,22 @@ The python file for the plots are located in ```scripts_plot/```. Three plots ar
 ## Use COALA in your code <a name="use_coala"></a>
 The COALA files in ``` src/``` has to be compiled in the following order:
 
-```\precision.f90```
-```\GQ_legendre_nodes_weights.f90```
-```\tension_module.f90```
-```\init_massgrid.f90```
-```\polynomials_legendre.f90```
-```\limiter.f90```
-```\reconstruction_g.f90```
-```\collision_kernels.f90```
+```precision.f90```
+```GQ_legendre_nodes_weights.f90```
+```tension_module.f90```
+```init_massgrid.f90```
+```polynomials_legendre.f90```
+```limiter.f90```
+```reconstruction_g.f90```
+```collision_kernels.f90```
 ```/coag_term/coagflux_functions_GQ.f90```
 ```/coag_term/coagintflux_functions_GQ.f90```
-```\functions_tabflux_tabintflux.f90```
-```\functions_flux_intflux.f90```
-```\solver_DG.f90```
-```\compute_solver_coag.f90```
-```\initial_condition_L2proj_GQ.f90```
-```\interface_coala_coag.f90```
+```functions_tabflux_tabintflux.f90```
+```functions_flux_intflux.f90```
+```solver_DG.f90```
+```compute_solver_coag.f90```
+```initial_condition_L2proj_GQ.f90```
+```interface_coala_coag.f90```
 
 In the following, steps are detailed to interface COALA to hydro code. An example is given in the file ```tests/interface_coala_hydro/src/coala_hydro```.
 
