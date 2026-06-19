@@ -1320,6 +1320,7 @@ subroutine operator_L_k0_kdv_opt(eps,nbins,massgrid,massbins,gij,tabflux_coag,dv
    ! do j=1,nbins
    !    print*,"j=",j,",gij(j) =",gij(j),", flux =",flux(j)
    ! enddo
+   ! stop
    
    !compute min and max indices where flux /= 0
    ind_min_flux = minloc(massbins, mask = flux .ne. 0._wp, dim = 1)

@@ -464,6 +464,7 @@ subroutine compute_coag_k0_kdv_opt(eps,coeff_CFL,nbins,massgrid,massbins,&
    !evaluate coagulation CFL
    dtCFLsub = compute_CFL_k0_kdv_opt(eps,nbins,massgrid,massbins,gij,tabflux_coag,dv)
    dtCFLsub = coeff_CFL*dtCFLsub
+   ! print*,"dtCFLsub=",dtCFLsub
 
    !compare hydro timestep and coagulation CFL
    dt = min(dtCFLsub,dthydro)
@@ -481,6 +482,7 @@ subroutine compute_coag_k0_kdv_opt(eps,coeff_CFL,nbins,massgrid,massbins,&
 
          dtCFLsub = compute_CFL_k0_kdv_opt(eps,nbins,massgrid,massbins,gijsub_in,tabflux_coag,dv)
          dtCFLsub = coeff_CFL*dtCFLsub
+         ! print*,"dtCFLsub=",dtCFLsub
 
       enddo
 
