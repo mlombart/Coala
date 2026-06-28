@@ -666,7 +666,10 @@ make -j
 #### Plot <a name="plot_coala_hydro"></a>
 The python file for the plots are located in ```scripts_plot/```. Three plots are displayed mass density distribution, mass fraction distribution and the mass conservation.
 
-
+# Contributions
+Contributions are welcomed through github pull request: 
+- code contribution with [pull request](https://github.com/mlombart/Coala/pulls)
+- Issue report and feature requests with [issues](https://github.com/mlombart/Coala/issues)
 
 # License
 COALA is licensed under the `CeCILL Free Software License Agreement v2.1`.
