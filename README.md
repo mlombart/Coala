@@ -1,5 +1,7 @@
 
 
+![coala](./logo/logo_coala.png)
+
 
 # COALA code
 
